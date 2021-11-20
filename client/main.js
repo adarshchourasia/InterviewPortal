@@ -1,4 +1,16 @@
 
+document.addEventListener('DOMContentLoaded', function () {
+    
+    fetch('http://localhost:5000/getAll')
+    .then(response => response.json())
+    .then(data => loadDropdownList(data['data']));
+
+    fetch('http://localhost:5000/getAllInterviews')
+    .then(response => response.json())
+    .then(data => loadInterviewTable(data['data']));
+    
+});
+
 function loadDropdownList(data) {
     const drop1 = document.querySelector('#name-of-interviewer');
     const drop2 = document.querySelector('#name-of-student');
@@ -13,6 +25,33 @@ function loadDropdownList(data) {
 
     drop1.innerHTML = dropdownHtml;
     drop2.innerHTML = dropdownHtml;
+}
+
+function loadInterviewTable(data) {
+    const table = document.querySelector('table tbody');
+
+    if (data.length === 0) {
+        table.innerHTML = "<tr><td class='no-data' colspan='7'>No Data</td></tr>";
+        return;
+    }
+
+    let tableHtml = "";
+
+    data.forEach(function ({id, email1, email2, startTime, endTime}) {
+        
+        tableHtml += "<tr>";
+        tableHtml += `<td>${id}</td>`;
+        tableHtml += `<td>${email1}</td>`;
+        tableHtml += `<td>${email2}</td>`;
+        tableHtml += `<td>${new Date(startTime).toLocaleString()}</td>`;
+        tableHtml += `<td>${new Date(endTime).toLocaleString()}</td>`;
+        const dataToStore = `${id},${email1},${email2}`;
+        tableHtml += `<td><button class="delete-row-btn" data-id=${id}>Delete</td>`;
+        tableHtml += `<td><button class="edit-row-btn" data-id=${dataToStore}>Edit</td>`;
+        tableHtml += "</tr>";
+    });
+
+    table.innerHTML = tableHtml;
 }
 
 
