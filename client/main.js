@@ -1,4 +1,31 @@
 
+document.querySelector('table tbody').addEventListener('click', function(event) {
+    if (event.target.className === "delete-row-btn") {
+        deleteInterviewById(event.target.dataset.id);
+    }
+    if (event.target.className === "edit-row-btn") {
+        handleEditInterview(event.target.dataset.id);
+    }
+});
+
+function deleteInterviewById(id) {
+    fetch('http://localhost:5000/deleteInterview/' + id, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+function handleEditInterview(id) {
+    const updateSection = document.querySelector('#update-row');
+    updateSection.hidden = false;
+    document.querySelector('#start-time-updated').dataset.id = id;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     
     fetch('http://localhost:5000/getAll')
@@ -53,5 +80,4 @@ function loadInterviewTable(data) {
 
     table.innerHTML = tableHtml;
 }
-
 
