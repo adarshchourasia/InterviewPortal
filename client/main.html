@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Interview Creation Portal</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="fixed.css">
+</head>
+<body data-spy="scroll" data-target="#navbarResponsive">
+	<!---start home-->
+	<div id="home">
+
+					<!---start navigation-->
+	<nav class="navbar navbar-fixed-top navbar-expand-md navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">Interview Creation Portal</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="navbar navbar-fixed-top navbar-expand-md navbar-dark bg-dark fixed-top" id="navbarResponsive">
+			<ul class=" navbar-brand navbar-nav ml-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#home">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#about">About</a>
+				</li>
+
+                <li class="nav-item">
+					<a class="nav-link" href="#schedule-interview">Schedule Interview</a>
+				</li>
+                <li>
+					<a class="nav-link" href="#upcoming-interviews">Upcoming Interviews</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#edit-interviews">Edit Interviews</a>
+				</li>
+
+			</ul>
+		</div>
+	</nav>
+		<!---end navigation-->
+
+		<!--start landing page-->
+		<div class="landing">
+			<div class="home-wrap">
+				<div class="home-inner">
+				</div>
+			</div>
+		</div>
+		<div class="caption text-center">
+            <h3>Welcome to</h3>
+			<h1>Interview Creation Portal</h1>
+			
+			<a class="btn btn-outline-light btn-lg" href="#schedule-interview">Schedule Interview</a>
+		</div>
+		<!--end landing page-->
+		
+	</div>
+		<!---end home-->
+	<!---start about-->
+	<div id="about" class="offset">
+		<div class="col-12 narrow text-center">
+			<h1><br><br>Interview Creation Portal</h1>
+			<p class="lead"> In this Interview Creation Portal admins can create interviews by selecting participants,
+                interview start time and end time.
+                Here you can also view interviews list page where admin can see all the upcoming interviews. 
+                And here you can also edit the created interview. </p>
+<a class="btn bn-secondary btn-outline-dark btn-md" href="#schedule-interview" style="background-color:cornflowerblue">Schedule Interview</a>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>			
+		</div>
+	</div>
+		<!---end about-->
+				
+		<!---start upcoming interview-->
+        <div id="upcoming-interviews" class="offset">
+			<!--- start of jumbotron-->
+	
+			<div class="jumbotron">
+				<div class="narrow">
+					<div class="col-12 text-center">
+						<h1 class="heading"><br><br>Upcoming Interviews</h1>
+						<div class="heading-underline"></div>
+					</div>
+					<div class="row text-center">
+						<table>
+							<thead>
+								<th>ID</th>
+								<th>InterViewer</th>
+								<th>Student</th>
+								<th>Start Date Time</th>
+								<th>End Date Time</th>
+								<th>Delete</th>
+								<th>Edit</th>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<section hidden id="update-row">
+						<div class="container">
+							
+								<div class='col-lg'>
+									<div class="form-group">
+										<label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
+										<div class='input-group date' id='datepicker1'>
+											<input type='text' class="form-control" id = "start-time-updated" />
+											<span class="input-group-addon">
+												<span class="glyphicon glyphicon-calendar"></span>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class='col-lg'>
+									<div class="form-group">
+										<label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
+										<div class='input-group date' id='datepicker2'>
+											<input type='text' class="form-control" id="end-time-updated"/>
+											<span class="input-group-addon">
+												<span class="glyphicon glyphicon-calendar"></span>
+											</span>
+										</div>
+									</div>
+								</div>
+							
+							<button id="update-row-btn" class="btn btnD1 text-center" style="background-color:cornflowerblue">Edit</button>
+						</div>
+						</section>
+					
+				</div>
+			</div>
+			<!--- end of jumbotron-->
+		</div>
+		<!---end upcoming interview-->
+					<!---start schedule Interview-->
+	<div id="schedule-interview" class="offset">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="headerText text-center">
+						<h1><br><br> Schedule Interviews</h1>
+					</div>
+				</div>
+			</div>
+
+
+            <div class="panel panel-primary">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    
+                        <div class="col-lg">
+                        <div class="form-group">
+                            <label class="control-label">Name of Interviewer</label>
+                            <select class="form-control"  name="name-of-interviewer" id="name-of-interviewer">
+                            </select>
+                            
+                        </div>
+                        </div>
+                        <div class="col-lg">
+                        <div class="form-group">
+                            <label class="control-label">Name of Student</label>
+                            <select class="form-control"  name="name-of-student" id="name-of-student">
+                            </select>
+                            
+                        </div>
+                        </div>
+                   
+                    
+                        <div class='col-lg'>
+                            <div class="form-group">
+                                <label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
+                                <div class='input-group date' id='datepicker'>
+                                    <input type='text' class="form-control" id = "start-time" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-lg'>
+                            <div class="form-group">
+                                <label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
+                                <div class='input-group date' id='datepicker4'>
+                                    <input type='text' class="form-control" id="end-time"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+					<div class="caption text-center"></div>
+                    <button id="submit-btn" class="btn btnD1 text-center" style="background-color:cornflowerblue" >Schedule the Interview</button>
+					</div>
+                </div>
+				<br>
+				<br>
+            </div>
+			
+		</div>
+	</div>
+		<!---end schedule interview-->
+		<!---start edit interview-->
+       
+		<div id="edit-interviews" class="offset">
+			<!--- start of jumbotron-->
+	
+			<div class="jumbotron">
+				<div class="narrow">
+					<div class="col-12 text-center">
+						<h1 class="heading"><br><br>Edit Interviews</h1>
+						<div class="heading-underline"></div>
+					</div>
+					<div class="container">
+						
+							<div class='col-lg'>
+								<div class="form-group">
+									<label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
+									<div class='input-group date' id='datepicker1'>
+										<input type='text' class="form-control" id = "start-time-updated" />
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class='col-lg'>
+								<div class="form-group">
+									<label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
+									<div class='input-group date' id='datepicker2'>
+										<input type='text' class="form-control" id="end-time-updated"/>
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+								</div>
+							</div>
+						
+						<button id="update-row-btn" class="btn btnD1 text-center" style="background-color:cornflowerblue">Edit</button>
+					</div>
+				</div>
+			</div>
+			<!--- end of jumbotron-->
+		</div>
+		<!---end edit interview-->
+					
+			
+	<!---sources start-->
+    
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+</body>
+</html>
+
+
