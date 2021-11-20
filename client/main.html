@@ -217,33 +217,50 @@
 						<h1 class="heading"><br><br>Edit Interviews</h1>
 						<div class="heading-underline"></div>
 					</div>
-					<div class="container">
-						
-							<div class='col-lg'>
-								<div class="form-group">
-									<label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
-									<div class='input-group date' id='datepicker1'>
-										<input type='text' class="form-control" id = "start-time-updated" />
-										<span class="input-group-addon">
-											<span class="glyphicon glyphicon-calendar"></span>
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class='col-lg'>
-								<div class="form-group">
-									<label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
-									<div class='input-group date' id='datepicker2'>
-										<input type='text' class="form-control" id="end-time-updated"/>
-										<span class="input-group-addon">
-											<span class="glyphicon glyphicon-calendar"></span>
-										</span>
-									</div>
-								</div>
-							</div>
-						
-						<button id="update-row-btn" class="btn btnD1 text-center" style="background-color:cornflowerblue">Edit</button>
+					<div class="row text-center">
+						<table>
+							<thead>
+								<th>ID</th>
+								<th>InterViewer</th>
+								<th>Student</th>
+								<th>Start Date Time</th>
+								<th>End Date Time</th>
+								<th>Delete</th>
+								<th>Edit</th>
+							</thead>
+							<tbody></tbody>
+						</table>
 					</div>
+					<section hidden id="update-row">
+						<div class="container">
+							
+								<div class='col-lg'>
+									<div class="form-group">
+										<label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
+										<div class='input-group date' id='datepicker1'>
+											<input type='text' class="form-control" id = "start-time-updated" />
+											<span class="input-group-addon">
+												<span class="glyphicon glyphicon-calendar"></span>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class='col-lg'>
+									<div class="form-group">
+										<label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
+										<div class='input-group date' id='datepicker2'>
+											<input type='text' class="form-control" id="end-time-updated"/>
+											<span class="input-group-addon">
+												<span class="glyphicon glyphicon-calendar"></span>
+											</span>
+										</div>
+									</div>
+								</div>
+							
+							<button id="update-row-btn" class="btn btnD1 text-center" style="background-color:cornflowerblue">Edit</button>
+						</div>
+						</section>
+					
 				</div>
 			</div>
 			<!--- end of jumbotron-->
