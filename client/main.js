@@ -81,3 +81,32 @@ function loadInterviewTable(data) {
     table.innerHTML = tableHtml;
 }
 
+const updateBtn = document.querySelector('#update-row-btn');
+
+updateBtn.onclick = function() {
+    const updateDate1 = document.querySelector('#start-time-updated');
+    const updateDate2 = document.querySelector('#end-time-updated');
+    const data = updateDate1.dataset.id.split(',');
+
+    // console.log("Updated", updateDate1, updateDate2, )
+    if(updateDate1.value === "" || updateDate2.value === "") {
+        alert("Select Date and Time");
+        return;
+    }
+
+    fetch('http://localhost:5000/updateInterview', {
+        method: 'PATCH',
+        headers: {
+            'Content-type' : 'application/json'
+        },
+        body: JSON.stringify({
+            id: data[0],
+            email1: data[1],
+            email2: data[2],
+            startTime: updateDate1.value,
+            endTime: updateDate2.value
+        })
+    })
+    .then(response => response.json())
+    .then(data => updateVerdict(data['data']));
+}
