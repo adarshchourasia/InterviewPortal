@@ -18,6 +18,7 @@ connection.connect((err) => {
     console.log('db ' + connection.state);
 });
 
+
 convertDateTime = (datetime) => {
     datetime = datetime.split(' ');
     date = datetime[0].split('/');
@@ -39,7 +40,6 @@ convertDateTime = (datetime) => {
     sqlDate += date[2] + '-' + date[0] + '-' + date[1] + ' ' + time[0] + ':' + time[1];
     return sqlDate;
 }
-
 
 class database {
     static getDbServiceInstance() {
