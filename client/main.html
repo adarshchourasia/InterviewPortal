@@ -205,44 +205,10 @@
 			
 		</div>
 	</div>
-		<!---end schedule interview-->
-       
-		
-					
-			
+		<!---end schedule interview-->		
 	<!---sources start-->
-
-	<script type="text/javascript">
-        $(function () {
-            $('#datetimepicker1').datetimepicker();
-            $('#datetimepicker2').datetimepicker({
-                useCurrent: false //Important! See issue #1075
-            });
-            $("#datetimepicker1").on("dp.change", function (e) {
-                $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-            });
-            $("#datetimepicker2").on("dp.change", function (e) {
-                $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepickerUpdate1').datetimepicker();
-            $('#datetimepickerUpdate2').datetimepicker({
-                useCurrent: false //Important! See issue #1075
-            });
-            $("#datetimepickerUpdate1").on("dp.change", function (e) {
-                $('#datetimepickerUpdate2').data("DateTimePicker").minDate(e.date);
-            });
-            $("#datetimepickerUpdate2").on("dp.change", function (e) {
-                $('#datetimepickerUpdate1').data("DateTimePicker").maxDate(e.date);
-            });
-        });
-    </script>
     
 <script src="main.js"></script>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
