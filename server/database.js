@@ -150,13 +150,13 @@ class DbService {
             const check1 = await this.checkAvailability(email1,start,end);
             const check2 = await this.checkAvailability(email2,start, end);
             if(check1 > 0) {
-                console.log("Interviewer Not available at that time");
+                console.log("SORRY! Interviewer Not available at that time");
                 return {
                     id: -1
                 };
             }
             else if(check2 > 0) {
-                console.log("Interviewee Not available at that time");
+                console.log("SORRY! Student (Interviewee) Not available at that time");
                 return {
                     id: -2
                 };
@@ -197,13 +197,13 @@ class DbService {
 
             //console.log("UpdateIn",id, email1,email2,start,end);
             if(check1 > 0) {
-                console.log("Interviewer Not available at that time");
+                console.log("SORRY! Interviewer Not available at that time");
                 return {
                     id: -1
                 };
             }
             else if(check2 > 0) {
-                console.log("Interviewee Not available at that time");
+                console.log("SORRY! Student (Interviewee) Not available at that time");
                 return {
                     id: -2
                 };

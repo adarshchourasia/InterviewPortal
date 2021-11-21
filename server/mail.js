@@ -38,7 +38,7 @@ class MailService {
             from: USER,
             to: interviewer.email + ',' + interviewee.email,
             subject: 'New Interview',
-            text: `You have new interview scheduled.
+            text: `Your new interview is scheduled.
                    Details:
                    interviewer name: ${interviewer.name}
                    interviewee name: ${interviewee.name}
@@ -62,7 +62,7 @@ class MailService {
             from: USER,
             to: interviewer.email + ',' + interviewee.email,
             subject: 'Interview Timings Updates',
-            text: `You interview scheduled timings are updated.
+            text: `Your interview timings are updated.
                    Details:
                    interviewer name: ${interviewer.name}
                    interviewee name: ${interviewee.name}
@@ -85,7 +85,7 @@ class MailService {
             from: USER,
             to: interviewer.email + ',' + interviewee.email,
             subject: 'Interview Cancelled',
-            text: `You interview scheduled with
+            text: `SORRY! Your interview scheduled with
                    Details:
                    interviewer name: ${interviewer.name}
                    interviewee name: ${interviewee.name}
