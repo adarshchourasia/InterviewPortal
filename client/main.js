@@ -100,6 +100,7 @@ function insertRowIntoInterviewTable(data) {
     const isTableData = table.querySelector('.no-data');
 
     let tableHtml = "<tr>";
+    
 
     for (var key in data) {
         if (data.hasOwnProperty(key)) {

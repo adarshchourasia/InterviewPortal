@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const mail = require('./mail');
+const mail = require('./mail.js');
 
 let instance = null;
 
@@ -17,50 +17,6 @@ connection.connect((err) => {
     }
     console.log('db ' + connection.state);
 });
-
-async insertInterview(email1, email2, startTime, endTime) {
-    try {
-        const start = convertDateTime(startTime);
-        const end = convertDateTime(endTime);
-        const check1 = await this.checkAvailability(email1,start,end);
-        const check2 = await this.checkAvailability(email2,start, end);
-        if(check1 > 0) {
-            console.log("SORRY! Interviewer Not available at that time");
-            return {
-                id: -1
-            };
-        }
-        else if(check2 > 0) {
-            console.log("SORRY! Student Not available at that time");
-            return {
-                id: -2
-            };
-        }
-        else {
-
-            const insertId = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO interviews (email1, email2, startTime, endTime) VALUES (?,?,?,?);";
-
-                connection.query(query, [email1, email2, start, end] , (err, result) => {
-                    if (err) reject(new Error(err.message));
-                    resolve(result.insertId);
-                })
-            });
-            const ms = mail.getMailServiceInstance();
-            ms.schedule(email1, email2, startTime, endTime);
-            return {
-                id : insertId,
-                email1: email1,
-                email2 : email2,
-                startTime : startTime,
-                endTime : endTime
-            };
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 
 convertDateTime = (datetime) => {
     datetime = datetime.split(' ');
@@ -84,9 +40,10 @@ convertDateTime = (datetime) => {
     return sqlDate;
 }
 
-class database {
+
+class DbService {
     static getDbServiceInstance() {
-        return instance ? instance : new database();
+        return instance ? instance : new DbService();
     }
 
     // Load Dropdown List from all the users available.
@@ -125,6 +82,7 @@ class database {
         }
     }
 
+    // Delete an interview
     async deleteInterviewById(id) {
         try {
             id = parseInt(id, 10);
@@ -157,6 +115,78 @@ class database {
         }
     }
 
+    //Check for availability
+    async checkAvailability(email, start, end, id = -1) {
+        try {
+            const check1 = await new Promise((resolve, reject) => {
+                const query = "SELECT (SELECT COUNT(*) FROM interviews WHERE email1 = ? and id != ?) - \
+                                      (SELECT COUNT(*) FROM interviews WHERE email1 = ? and id != ? and (startTime > ? or endTime < ?)) \
+                                      as CNT";
+                connection.query(query, [email, id, email, id, end, start] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result[0].CNT);
+                })
+            });
+            const check2 = await new Promise((resolve, reject) => {
+                const query = "SELECT (SELECT COUNT(*) FROM interviews WHERE email2 = ? and id != ?) - \
+                                      (SELECT COUNT(*) FROM interviews WHERE email2 = ? and id != ? and (startTime > ? or endTime < ?)) \
+                                      as CNT";
+                connection.query(query, [email, id, email, id, end, start] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result[0].CNT);
+                })
+            });
+            return (check1>0 || check2>0);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    // Insert new interview
+    async insertInterview(email1, email2, startTime, endTime) {
+        try {
+            const start = convertDateTime(startTime);
+            const end = convertDateTime(endTime);
+            const check1 = await this.checkAvailability(email1,start,end);
+            const check2 = await this.checkAvailability(email2,start, end);
+            if(check1 > 0) {
+                console.log("Interviewer Not available at that time");
+                return {
+                    id: -1
+                };
+            }
+            else if(check2 > 0) {
+                console.log("Interviewee Not available at that time");
+                return {
+                    id: -2
+                };
+            }
+            else {
+
+                const insertId = await new Promise((resolve, reject) => {
+                    const query = "INSERT INTO interviews (email1, email2, startTime, endTime) VALUES (?,?,?,?);";
+
+                    connection.query(query, [email1, email2, start, end] , (err, result) => {
+                        if (err) reject(new Error(err.message));
+                        resolve(result.insertId);
+                    })
+                });
+                const ms = mail.getMailServiceInstance();
+                ms.schedule(email1, email2, startTime, endTime);
+                return {
+                    id : insertId,
+                    email1: email1,
+                    email2 : email2,
+                    startTime : startTime,
+                    endTime : endTime
+                };
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // Update Interview
     async updateInterviewById(id, email1, email2, startTime, endTime) {
         try {
             id = parseInt(id, 10);
@@ -167,13 +197,13 @@ class database {
 
             //console.log("UpdateIn",id, email1,email2,start,end);
             if(check1 > 0) {
-                console.log("SORRY! Interviewer Not available at that time");
+                console.log("Interviewer Not available at that time");
                 return {
                     id: -1
                 };
             }
             else if(check2 > 0) {
-                console.log("SORRY! Student Not available at that time");
+                console.log("Interviewee Not available at that time");
                 return {
                     id: -2
                 };
@@ -187,7 +217,7 @@ class database {
                         resolve(result.affectedRows);
                     })
                 });
-                const ms = mailService.getMailServiceInstance();
+                const ms = mail.getMailServiceInstance();
                 ms.update(email1, email2, startTime, endTime);
                 return {
                     id: 1
@@ -201,5 +231,4 @@ class database {
     
 }
 
-
-    module.exports = database;
+module.exports = DbService;

@@ -7,7 +7,6 @@
 	<title>Interview Creation Portal</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="fixed.css">
-	<script src="main.js"></script>
 </head>
 <body data-spy="scroll" data-target="#navbarResponsive">
 	<!---start home-->
@@ -36,7 +35,7 @@
 					<a class="nav-link" href="#upcoming-interviews">Upcoming Interviews</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#edit-interviews">Edit Interviews</a>
+					<a class="nav-link" href="#upcoming-interviews">Edit Interviews</a>
 				</li>
 
 			</ul>
@@ -87,15 +86,15 @@
 			<div class="jumbotron">
 				<div class="narrow">
 					<div class="col-12 text-center">
-						<h1 class="heading"><br><br>Upcoming Interviews</h1>
+						<h1 class="heading"><br><br>Upcoming Interviews <br><small>(To Edit Click on Edit Button)</small> </h1>
 						<div class="heading-underline"></div>
 					</div>
 					<div class="row text-center">
 						<table>
 							<thead>
 								<th>ID</th>
-								<th>InterViewer</th>
-								<th>Student</th>
+								<th>InterViewer Name</th>
+								<th>Student Name</th>
 								<th>Start Date Time</th>
 								<th>End Date Time</th>
 								<th>Delete</th>
@@ -110,7 +109,7 @@
 								<div class='col-lg'>
 									<div class="form-group">
 										<label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
-										<div class='input-group date' id='datepicker1'>
+										<div class='input-group date' id='datetimepickerUpdate1'>
 											<input type='text' class="form-control" id = "start-time-updated" />
 											<span class="input-group-addon">
 												<span class="glyphicon glyphicon-calendar"></span>
@@ -121,7 +120,7 @@
 								<div class='col-lg'>
 									<div class="form-group">
 										<label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
-										<div class='input-group date' id='datepicker2'>
+										<div class='input-group date' id='datetimepickerUpdate2'>
 											<input type='text' class="form-control" id="end-time-updated"/>
 											<span class="input-group-addon">
 												<span class="glyphicon glyphicon-calendar"></span>
@@ -157,16 +156,16 @@
                     
                         <div class="col-lg">
                         <div class="form-group">
-                            <label class="control-label">Name of Interviewer</label>
-                            <select class="form-control"  name="name-of-interviewer" id="name-of-interviewer">
+                            <label class="control-label">Interviewer Name</label>
+                            <select class="form-control"  name="interviewer-name" id="name-of-interviewer">
                             </select>
                             
                         </div>
                         </div>
                         <div class="col-lg">
                         <div class="form-group">
-                            <label class="control-label">Name of Student</label>
-                            <select class="form-control"  name="name-of-student" id="name-of-student">
+                            <label class="control-label">Student Name</label>
+                            <select class="form-control"  name="interviewer-name" id="name-of-student">
                             </select>
                             
                         </div>
@@ -176,7 +175,7 @@
                         <div class='col-lg'>
                             <div class="form-group">
                                 <label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
-                                <div class='input-group date' id='datepicker'>
+                                <div class='input-group date' id='datetimepicker1'>
                                     <input type='text' class="form-control" id = "start-time" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
@@ -187,7 +186,7 @@
                         <div class='col-lg'>
                             <div class="form-group">
                                 <label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
-                                <div class='input-group date' id='datepicker4'>
+                                <div class='input-group date' id='datetimepicker2'>
                                     <input type='text' class="form-control" id="end-time"/>
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
@@ -207,74 +206,45 @@
 		</div>
 	</div>
 		<!---end schedule interview-->
-		<!---start edit interview-->
        
-		<div id="edit-interviews" class="offset">
-			<!--- start of jumbotron-->
-	
-			<div class="jumbotron">
-				<div class="narrow">
-					<div class="col-12 text-center">
-						<h1 class="heading"><br><br>Edit Interviews</h1>
-						<div class="heading-underline"></div>
-					</div>
-					<div class="row text-center">
-						<table>
-							<thead>
-								<th>ID</th>
-								<th>InterViewer</th>
-								<th>Student</th>
-								<th>Start Date Time</th>
-								<th>End Date Time</th>
-								<th>Delete</th>
-								<th>Edit</th>
-							</thead>
-							<tbody></tbody>
-						</table>
-					</div>
-					<section hidden id="update-row">
-						<div class="container">
-							
-								<div class='col-lg'>
-									<div class="form-group">
-										<label class="control-label">Start Date Time (Eg. 10/10/2021 10:10 PM)</label>
-										<div class='input-group date' id='datepicker1'>
-											<input type='text' class="form-control" id = "start-time-updated" />
-											<span class="input-group-addon">
-												<span class="glyphicon glyphicon-calendar"></span>
-											</span>
-										</div>
-									</div>
-								</div>
-								<div class='col-lg'>
-									<div class="form-group">
-										<label class="control-label">End Date Time (Eg. 10/10/2021 10:10 PM)</label>
-										<div class='input-group date' id='datepicker2'>
-											<input type='text' class="form-control" id="end-time-updated"/>
-											<span class="input-group-addon">
-												<span class="glyphicon glyphicon-calendar"></span>
-											</span>
-										</div>
-									</div>
-								</div>
-							
-							<button id="update-row-btn" class="btn btnD1 text-center" style="background-color:cornflowerblue">Edit</button>
-						</div>
-						</section>
-					
-				</div>
-			</div>
-			<!--- end of jumbotron-->
-		</div>
-		<!---end edit interview-->
+		
 					
 			
 	<!---sources start-->
+
+	<script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+            $('#datetimepicker2').datetimepicker({
+                useCurrent: false //Important! See issue #1075
+            });
+            $("#datetimepicker1").on("dp.change", function (e) {
+                $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepicker2").on("dp.change", function (e) {
+                $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepickerUpdate1').datetimepicker();
+            $('#datetimepickerUpdate2').datetimepicker({
+                useCurrent: false //Important! See issue #1075
+            });
+            $("#datetimepickerUpdate1").on("dp.change", function (e) {
+                $('#datetimepickerUpdate2').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepickerUpdate2").on("dp.change", function (e) {
+                $('#datetimepickerUpdate1').data("DateTimePicker").maxDate(e.date);
+            });
+        });
+    </script>
     
+<script src="main.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>

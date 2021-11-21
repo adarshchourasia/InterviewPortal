@@ -5,6 +5,7 @@ const SERVICE = 'gmail';
 const USER = 'adarshgitdemo@gmail.com';
 const PASSWORD = 'Adarsh.1234';
 
+
 const transporter = nodemailer.createTransport({
     service: SERVICE,
     auth: {
@@ -13,10 +14,11 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-class mail {
+
+class MailService {
 
     static getMailServiceInstance() {
-        return instance ? instance : new mail();
+        return instance ? instance : new MailService();
     }
 
     getData = (data) => {
@@ -36,10 +38,10 @@ class mail {
             from: USER,
             to: interviewer.email + ',' + interviewee.email,
             subject: 'New Interview',
-            text: `Your new interview is scheduled.
+            text: `You have new interview scheduled.
                    Details:
-                   Name of Interviewer: ${interviewer.name}
-                   Name of Student: ${interviewee.name}
+                   interviewer name: ${interviewer.name}
+                   interviewee name: ${interviewee.name}
                    start time: ${startTime}
                    end time: ${endTime}`
           };
@@ -62,8 +64,8 @@ class mail {
             subject: 'Interview Timings Updates',
             text: `You interview scheduled timings are updated.
                    Details:
-                   Name of Interviewer: ${interviewer.name}
-                   Name of Student: ${interviewee.name}
+                   interviewer name: ${interviewer.name}
+                   interviewee name: ${interviewee.name}
                    start time: ${startTime}
                    end time: ${endTime}`
           };
@@ -83,7 +85,7 @@ class mail {
             from: USER,
             to: interviewer.email + ',' + interviewee.email,
             subject: 'Interview Cancelled',
-            text: `SORRY! Your interview scheduled with
+            text: `You interview scheduled with
                    Details:
                    interviewer name: ${interviewer.name}
                    interviewee name: ${interviewee.name}
@@ -100,5 +102,5 @@ class mail {
           });
     }
 }
-
-    module.exports= mail;
+  
+module.exports = MailService;
