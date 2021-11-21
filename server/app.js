@@ -27,3 +27,16 @@ app.get('/getAllInterviews', (request, response) => {
     .then(data => response.json({data : data}))
     .catch(err => console.log(err));
 })
+
+app.delete('/deleteInterview/:id', (request, response) => {
+    const { id } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.deleteInterviewById(id);
+    
+    result
+    .then(data => response.json({success : data}))
+    .catch(err => console.log(err));
+});
+
+app.listen(5000, () => console.log('app is running'));
