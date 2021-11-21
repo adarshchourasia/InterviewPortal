@@ -157,5 +157,49 @@ class database {
         }
     }
 
+    async updateInterviewById(id, email1, email2, startTime, endTime) {
+        try {
+            id = parseInt(id, 10);
+            const start = convertDateTime(startTime);
+            const end = convertDateTime(endTime); 
+            const check1 = await this.checkAvailability(email1, start, end, id);
+            const check2 = await this.checkAvailability(email2, start, end, id);
+
+            //console.log("UpdateIn",id, email1,email2,start,end);
+            if(check1 > 0) {
+                console.log("SORRY! Interviewer Not available at that time");
+                return {
+                    id: -1
+                };
+            }
+            else if(check2 > 0) {
+                console.log("SORRY! Student Not available at that time");
+                return {
+                    id: -2
+                };
+            }
+            else {
+                const response = await new Promise((resolve, reject) => {
+                    const query = "UPDATE interviews SET startTime = ?, endTime = ? WHERE id = ?";
+        
+                    connection.query(query, [start, end, id] , (err, result) => {
+                        if (err) reject(new Error(err.message));
+                        resolve(result.affectedRows);
+                    })
+                });
+                const ms = mailService.getMailServiceInstance();
+                ms.update(email1, email2, startTime, endTime);
+                return {
+                    id: 1
+                };
+            }
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+    
+}
+
 
     module.exports = database;
