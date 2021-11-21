@@ -53,4 +53,52 @@ class mail {
         });
     }
 
+    update = (interviewer, interviewee, startTime, endTime) => {
+        interviewer = this.getData(interviewer);
+        interviewee = this.getData(interviewee);
+        const mailOptions = {
+            from: USER,
+            to: interviewer.email + ',' + interviewee.email,
+            subject: 'Interview Timings Updates',
+            text: `You interview scheduled timings are updated.
+                   Details:
+                   Name of Interviewer: ${interviewer.name}
+                   Name of Student: ${interviewee.name}
+                   start time: ${startTime}
+                   end time: ${endTime}`
+          };
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+    }
+
+    delete = (interviewer, interviewee, startTime, endTime) => {
+        interviewer = this.getData(interviewer);
+        interviewee = this.getData(interviewee);
+        const mailOptions = {
+            from: USER,
+            to: interviewer.email + ',' + interviewee.email,
+            subject: 'Interview Cancelled',
+            text: `SORRY! Your interview scheduled with
+                   Details:
+                   interviewer name: ${interviewer.name}
+                   interviewee name: ${interviewee.name}
+                   start time: ${startTime}
+                   end time: ${endTime}
+                   is cancelled now.`
+          };
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+    }
+}
+
     module.exports= mail;
