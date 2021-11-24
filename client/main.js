@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadDropdownList(data) {
     const drop1 = document.querySelector('#name-of-interviewer');
     const drop2 = document.querySelector('#name-of-student');
+    const drop3 = document.querySelector('#email-of-student');
 
     let dropdownHtml = "";
 
@@ -52,6 +53,7 @@ function loadDropdownList(data) {
 
     drop1.innerHTML = dropdownHtml;
     drop2.innerHTML = dropdownHtml;
+    drop3.innerHTML = dropdownHtml;
 }
 
 const submitButton = document.querySelector('#submit-btn');
@@ -65,11 +67,27 @@ submitButton.onclick = function () {
     //console.log(email1, email2, startTime,endTime);
 
     if(email1 === email2) {
-        alert("Interviewer and Interviewee cannot be same");
+        alert("Interviewer and Student(Interviewee) cannot be same");
         return;
     }
     if(startTime === "" || endTime === "") {
         alert("Select Date and Time");
+        return;
+    }
+     let testartTime = startTime.split(' ');
+     let tempStartDate = testartTime[0].split('/');
+     let tempStartTime = testartTime[1].split(':');
+     var today = new Date();
+     var dd = String(today.getDate()).padStart(2, '0');
+     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+     var yyyy = today.getFullYear();
+
+
+
+    if(parseInt(tempStartDate[2])<yyyy
+     || ( parseInt(tempStartDate[2])===yyyy && parseInt(tempStartDate[0])===parseInt(mm) && parseInt(tempStartDate[1])<parseInt(dd) )
+     || ( parseInt(tempStartDate[2])===yyyy && parseInt(tempStartDate[0])<parseInt(mm))){
+        alert("enter correct date");
         return;
     }
     fetch('http://localhost:5000/insertInterview', {
@@ -93,7 +111,7 @@ function insertRowIntoInterviewTable(data) {
         return;
     }
     if(data.id === -2) {
-        alert("Interviewee Not available at that time");
+        alert("Student(Interviewee) Not available at that time");
         return;
     }
     const table = document.querySelector('table tbody');
@@ -101,14 +119,13 @@ function insertRowIntoInterviewTable(data) {
 
     let tableHtml = "<tr>";
     
-
-    for (var key in data) {
-        if (data.hasOwnProperty(key)) {
-            if (key === 'startTime' || key==='endTime') {
-                data[key] = new Date(data[key]).toLocaleString();
-            }
-            tableHtml += `<td>${data[key]}</td>`;
+    //console.log("DATA",data);
+    for (var key in data) {   
+        //console.log("KEY",key);
+        if (key === 'startTime' || key==='endTime') {
+            data[key] = new Date(data[key]).toLocaleString();
         }
+        tableHtml += `<td>${data[key]}</td>`;
     }
     const dataToStore = `${data.id},${data.email1},${data.email2}`;
     tableHtml += `<td><button class="delete-row-btn" data-id=${data.id}>Delete</td>`;
@@ -159,7 +176,7 @@ updateBtn.onclick = function() {
     const updateDate2 = document.querySelector('#end-time-updated');
     const data = updateDate1.dataset.id.split(',');
 
-    // console.log("Updated", updateDate1, updateDate2, )
+    //console.log("Updated", data);
     if(updateDate1.value === "" || updateDate2.value === "") {
         alert("Select Date and Time");
         return;
@@ -187,7 +204,7 @@ function updateVerdict(data) {
         alert("Interviewer Not available at that time");
     } 
     else if (data.id===-2) {
-        alert("Interviewee Not available at that time");
+        alert("Student(Interviewee) Not available at that time");
     }
     else {
         location.reload();

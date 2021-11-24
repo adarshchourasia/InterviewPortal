@@ -207,15 +207,89 @@
 	</div>
 		<!---end schedule interview-->		
 	<!---sources start-->
+
+	<div id="upload-resume" class="offset">
+		<h1 style ="text-align: center;">Upload Resume</h1>
+		<form method="POST" action="http://localhost:5000/upload-resume" enctype="multipart/form-data">
+
+			<div class="col-lg">
+				<div class="form-group">
+					<label class="control-label">User</label>
+					<select class="form-control"  name="email" id="email-of-student">
+					</select>
+					
+				</div>
+			</div>
+			<input type="file" id="real-file" hidden="hidden" name="resumeC" />
+        	<button type="button" id="custom-button" name="resumeC">
+				Upload
+			</button>
+			<span id="custom-text">No file chosen, yet (file should be less than 5MB)</span>
+			<button id="submit-btn" class="btn btnD1 text-center" style="background-color:cornflowerblue" >Upload Resume</button>
+			<br><br><br><br><br><br>
+		</form>
+	</div>
+
+	
     
 <script src="main.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+            $('#datetimepicker2').datetimepicker({
+                useCurrent: false 
+            });
+            $("#datetimepicker1").on("dp.change", function (e) {
+                $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepicker2").on("dp.change", function (e) {
+                $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepickerUpdate1').datetimepicker();
+            $('#datetimepickerUpdate2').datetimepicker({
+                useCurrent: false
+            });
+            $("#datetimepickerUpdate1").on("dp.change", function (e) {
+                $('#datetimepickerUpdate2').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepickerUpdate2").on("dp.change", function (e) {
+                $('#datetimepickerUpdate1').data("DateTimePicker").maxDate(e.date);
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script>
+		if($('div#status').text()!='')
+		{
+			console.log($('div#status').text());
+			alert($('div#status').text());
+		}
+		const realFileBtn = document.getElementById("real-file");
+		const customBtn = document.getElementById("custom-button");
+		const customTxt = document.getElementById("custom-text");
+		customBtn.addEventListener("click", function () {
+		  realFileBtn.click();
+		  console.log("abd");
+		});
+		realFileBtn.addEventListener("change", function () {
+		  if (realFileBtn.value) {
+			customTxt.innerHTML = realFileBtn.value.match(
+			  /[\/\\]([\w\d\s\.\-\(\)]+)$/
+			)[1];
+		  } else {
+			customTxt.innerHTML = "No file chosen, yet.";
+		  }
+		});
+	  </script>
 </body>
 </html>
 

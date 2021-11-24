@@ -54,15 +54,18 @@ class DbService {
 
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
+                    
                     resolve(results);
+                    
                 })
             });
-            //console.log(response);
+            //console.log("RES",response);
             return response;
         } catch (error) {
             console.log(error);
         }
     }
+
     
     // Load table of upcoming interviews
     async getAllInterviewData() {
@@ -79,6 +82,23 @@ class DbService {
             return response;
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    // Updating the Resume id
+    async updateResumeId(email,resumeId){
+        try{
+            const data = await new Promise((resolve,reject) => {
+                const query = `UPDATE users SET Resume_Id='${resumeId}' WHERE email_id = ?`;
+                connection.query(query, [email] , (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            })
+        }
+        catch (error) {
+            console.log(error);
+            return false;
         }
     }
 
@@ -103,6 +123,7 @@ class DbService {
     
                 connection.query(query, [id] , (err, result) => {
                     if (err) reject(new Error(err.message));
+                    
                     resolve(result.affectedRows);
                 })
             });
@@ -124,6 +145,7 @@ class DbService {
                                       as CNT";
                 connection.query(query, [email, id, email, id, end, start] , (err, result) => {
                     if (err) reject(new Error(err.message));
+                    console.log('print2',result);
                     resolve(result[0].CNT);
                 })
             });
