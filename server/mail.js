@@ -32,8 +32,6 @@ class MailService {
     }
     
     schedule = (interviewer, interviewee, startTime, endTime) => {
-        interviewer = this.getData(interviewer);
-        interviewee = this.getData(interviewee);
         const mailOptions = {
             from: USER,
             to: interviewer.email + ',' + interviewee.email,

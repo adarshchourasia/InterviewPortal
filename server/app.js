@@ -32,14 +32,16 @@ app.get('/getAll', (request, response) => {
 })
 
 // To get all interviews data
-app.get('/getAllInterviews', (request, response) => {
+app.get('/getAllInterviews', async (request, response) => {
     const db = database.getDbServiceInstance();
 
-    const result = db.getAllInterviewData();
+    const result = await db.getAllInterviewData();
+    for (var key in result) {
+        result[key].email1=result[key].interviewer_name + '(' + result[key].interviewer_email + ')';
+        result[key].email2=result[key].student_name + '(' + result[key].student_email + ')';
+    }
     
-    result
-    .then(data => response.json({data : data}))
-    .catch(err => console.log(err));
+    response.json({data : result});
 })
 
 //update resume id
@@ -49,12 +51,9 @@ app.post('/upload-resume',async (request, response) => {
 //..
     const {email}=mail.getMailServiceInstance().getData(request.body.email);
     const resumeId=await fileUpload(request);
-    //console.log("Resume Id",resumeId);
-    //console.log("email- ",email);
 
     const db = database.getDbServiceInstance();
     const result = await db.updateResumeId(email,resumeId);
-    //console.log("Updated Db");
     
     response.json({success : result});
     
@@ -77,9 +76,11 @@ app.delete('/deleteInterview/:id', (request, response) => {
 // Insert new interview in table 
 app.post('/insertInterview', (request, response) => {
     const { email1, email2, endTime, startTime } = request.body;
+    const {email:interviewer_email}=mail.getMailServiceInstance().getData(email1);
+    const {email:student_email}=mail.getMailServiceInstance().getData(email2);
     const db = database.getDbServiceInstance();
     
-    const result = db.insertInterview(email1, email2, startTime, endTime);
+    const result = db.insertInterview(interviewer_email, student_email, startTime, endTime);
 
     result
     .then(data => response.json({ data: data}))
