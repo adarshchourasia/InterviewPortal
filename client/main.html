@@ -89,6 +89,8 @@
 						<h1 class="heading"><br><br>Upcoming Interviews <br><small>(To Edit Click on Edit Button)</small> </h1>
 						<div class="heading-underline"></div>
 					</div>
+					<input class="form-control" type="text" placeholder="Search participants name or email" id="interviews-search-box"/>
+					<button id="interviews-search-button" type="button" class="btn btnD1 text-center" style="background-color:cornflowerblue">Search</button>
 					<div class="row text-center">
 						<table>
 							<thead>
@@ -157,6 +159,8 @@
                         <div class="col-lg">
                         <div class="form-group">
                             <label class="control-label">Interviewer Name</label>
+							<input class="form-control" type="text" placeholder="Search for user" id="interviewer-search-box"/>
+							<text id="interviewer-options-text"></text>
                             <select class="form-control"  name="interviewer-name" id="name-of-interviewer">
                             </select>
                             
@@ -165,6 +169,8 @@
                         <div class="col-lg">
                         <div class="form-group">
                             <label class="control-label">Student Name</label>
+							<input class="form-control" type="text" placeholder="Search for user" id="student-search-box"/>
+							<text id="student-options-text"></text>
                             <select class="form-control"  name="interviewer-name" id="name-of-student">
                             </select>
                             
@@ -215,7 +221,9 @@
 			<div class="col-lg">
 				<div class="form-group">
 					<label class="control-label">User</label>
-					<select class="form-control"  name="email" id="email-of-student">
+					<input class="form-control" type="text" placeholder="Search for user" id="resume-user-search-box"/>
+					<text id="resume-user-options-text"></text>
+					<select class="form-control"  name="email" id="name-of-resume-user">
 					</select>
 					
 				</div>

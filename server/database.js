@@ -47,10 +47,10 @@ class DbService {
     }
 
     // Load Dropdown List from all the users available.
-    async getAllData() {
+    async getAllData(q = '') {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM users;";
+                const query = `SELECT * FROM users WHERE email_id LIKE '%${q}%' OR name LIKE '${q}%'LIMIT 10`;
 
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
@@ -68,11 +68,11 @@ class DbService {
 
     
     // Load table of upcoming interviews
-    async getAllInterviewData() {
+    async getAllInterviewData(q = '') {
         try {
             const response = await new Promise((resolve, reject) => {
                 //const query = "SELECT * FROM interviews;";
-                const query = "select interviews.id,u1.name as interviewer_name,u1.email_id as interviewer_email,u2.name as student_name,u2.email_id as student_email,interviews.startTime,interviews.endTime from interviews inner join users as u1 on u1.id = interviews.email1 inner join users as u2 on u2.id=interviews.email2";
+                const query = `select interviews.id,u1.name as interviewer_name,u1.email_id as interviewer_email,u2.name as student_name,u2.email_id as student_email,interviews.startTime,interviews.endTime from interviews inner join users as u1 on u1.id = interviews.email1 inner join users as u2 on u2.id=interviews.email2 where u1.name like '%${q}%' OR u1.email_id like '%${q}%' OR u2.name like '%${q}%' OR u2.email_id like '%${q}%'` ;
 
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
@@ -107,11 +107,14 @@ class DbService {
         try {
             id = parseInt(id, 10);
             const data = await new Promise((resolve,reject) => {
-                //const query = "SELECT * FROM interviews WHERE id = ?";
+                // const query = "SELECT * FROM interviews WHERE id = ?";
                 const query = "select interviews.id, u1.email_id as email1, u1.name as name1, u2.email_id as email2, u2.name as name2, interviews.startTime, interviews.endTime from interviews \
                  inner join users as u1 on u1.id = interviews.email1 and interviews.id=? \
                  inner join users as u2 on u2.id = interviews.email2 and interviews.id=?";
-                connection.query(query, [id ,id], (err, results) => {
+
+                 
+
+                connection.query(query, [id, id], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })

@@ -23,8 +23,10 @@ app.use(express.urlencoded({ extended : false }));
 // To get all users data 
 app.get('/getAll', (request, response) => {
     const db = database.getDbServiceInstance();
-
-    const result = db.getAllData();
+    const {q} = request.query;
+    console.log('params - ', request.query);
+    console.log(q);
+    const result = db.getAllData(q);
     
     result
     .then(data => response.json({data : data}))
@@ -34,8 +36,10 @@ app.get('/getAll', (request, response) => {
 // To get all interviews data
 app.get('/getAllInterviews', async (request, response) => {
     const db = database.getDbServiceInstance();
-
-    const result = await db.getAllInterviewData();
+    const {q} = request.query;
+    // console.log('params - ', request.query);
+    // console.log(q);
+    const result = await db.getAllInterviewData(q);
     for (var key in result) {
         result[key].email1=result[key].interviewer_name + '(' + result[key].interviewer_email + ')';
         result[key].email2=result[key].student_name + '(' + result[key].student_email + ')';

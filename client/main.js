@@ -1,5 +1,5 @@
 
-document.querySelector('table tbody').addEventListener('click', function(event) {
+document.querySelector('table tbody').addEventListener('click', function (event) {
     if (event.target.className === "delete-row-btn") {
         deleteInterviewById(event.target.dataset.id);
     }
@@ -8,16 +8,43 @@ document.querySelector('table tbody').addEventListener('click', function(event) 
     }
 });
 
+let timeOut;
+
+
+['interviewer', 'student', 'resume-user'].forEach(typeOfUser => {
+    document.querySelector(`#${typeOfUser}-search-box`).addEventListener('input', async ({ target: { value } }) => {
+        clearTimeout(timeOut);
+        let message = "length is " + value.length;
+        let searchBox = document.getElementById(`name-of-${typeOfUser}`);
+        let optionsText = document.getElementById(`${typeOfUser}-options-text`)
+        optionsText.innerHTML = `Options for ${value} -`;
+        searchBox.hidden = true;
+
+        timeOut = setTimeout(() => {
+            getSearchedUsers(value, typeOfUser)
+            optionsText.innerHTML = `Options for ${value} -`
+            console.log(message + ' - sending api request now with value - ', value);
+            searchBox.hidden = false;
+        }, 1000)
+        // console.log('value - ', value);
+    })
+})
+
+
+// document.querySelector('#interviewer-search-box').addEventListener('propertychange', async(e) => {
+//     console.log('value - ', e.target.value);
+// })
+
 function deleteInterviewById(id) {
     fetch('http://localhost:5000/deleteInterview/' + id, {
         method: 'DELETE'
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        }
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
 }
 
 function handleEditInterview(id) {
@@ -26,34 +53,61 @@ function handleEditInterview(id) {
     document.querySelector('#start-time-updated').dataset.id = id;
 }
 
+document.querySelector('#interviews-search-button').addEventListener('click', async (e) => {
+    searchQuery = document.querySelector('#interviews-search-box').value;
+    result = await fetch(`http://localhost:5000/getAllInterviews?q=${searchQuery}`);
+    result = await result.json();
+    loadInterviewTable(result.data);
+})
+
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     fetch('http://localhost:5000/getAll')
-    .then(response => response.json())
-    .then(data => loadDropdownList(data['data']));
+        .then(response => response.json())
+        .then(data => loadDropdownList(data['data']));
 
     fetch('http://localhost:5000/getAllInterviews')
-    .then(response => response.json())
-    .then(data => loadInterviewTable(data['data']));
-    
+        .then(response => response.json())
+        .then(data => loadInterviewTable(data['data']));
+
 });
 
-function loadDropdownList(data) {
-    const drop1 = document.querySelector('#name-of-interviewer');
-    const drop2 = document.querySelector('#name-of-student');
-    const drop3 = document.querySelector('#email-of-student');
+async function getSearchedUsers(query, typeOfUser) {
+    let result = await fetch(`http://localhost:5000/getAll?q=${query}`);
+    result = await result.json();
+    loadDropdownList(result.data, typeOfUser);
+}
+
+function loadDropdownList(data, typeOfUser) {
+    userMapping = {
+        interviewer: "#name-of-interviewer",
+        student: "#name-of-student",
+        "resume-user": "#name-of-resume-user",
+    }
+    let drops = []
+    if (typeOfUser)
+        drops.push(userMapping[typeOfUser]);
+    else drops.push(...Object.values(userMapping));
+    console.log('drops - ', drops);
+    // const drop1 = document.querySelector('#name-of-interviewer');
+    // const drop2 = document.querySelector('#name-of-student');
+    // const drop3 = document.querySelector('#name-of-resume-user');
 
     let dropdownHtml = "";
 
-    data.forEach(function ({name, email_id}) {
-        
+    data.forEach(function ({ name, email_id }) {
+
         const dataToStore = name + '(' + email_id + ')';
         dropdownHtml += `<option value="${dataToStore}">${dataToStore}</option>`
     });
 
-    drop1.innerHTML = dropdownHtml;
-    drop2.innerHTML = dropdownHtml;
-    drop3.innerHTML = dropdownHtml;
+    drops.forEach(drop => {
+        document.querySelector(drop).innerHTML = dropdownHtml;
+    })
+    // drop.innerHTML = dropdownHtml;
+    // drop1.innerHTML = dropdownHtml;
+    // drop2.innerHTML = dropdownHtml;
+    // drop3.innerHTML = dropdownHtml;
 }
 
 const submitButton = document.querySelector('#submit-btn');
@@ -63,30 +117,30 @@ submitButton.onclick = function () {
     const email2 = document.querySelector("#name-of-student").value;
     const startTime = document.querySelector("#start-time").value;
     const endTime = document.querySelector("#end-time").value;
-    
+
     //console.log(email1, email2, startTime,endTime);
 
-    if(email1 === email2) {
+    if (email1 === email2) {
         alert("Interviewer and Student(Interviewee) cannot be same");
         return;
     }
-    if(startTime === "" || endTime === "") {
+    if (startTime === "" || endTime === "") {
         alert("Select Date and Time");
         return;
     }
-     let testartTime = startTime.split(' ');
-     let tempStartDate = testartTime[0].split('/');
-     let tempStartTime = testartTime[1].split(':');
-     var today = new Date();
-     var dd = String(today.getDate()).padStart(2, '0');
-     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-     var yyyy = today.getFullYear();
+    let testartTime = startTime.split(' ');
+    let tempStartDate = testartTime[0].split('/');
+    let tempStartTime = testartTime[1].split(':');
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
 
 
-    if(parseInt(tempStartDate[2])<yyyy
-     || ( parseInt(tempStartDate[2])===yyyy && parseInt(tempStartDate[0])===parseInt(mm) && parseInt(tempStartDate[1])<parseInt(dd) )
-     || ( parseInt(tempStartDate[2])===yyyy && parseInt(tempStartDate[0])<parseInt(mm))){
+    if (parseInt(tempStartDate[2]) < yyyy
+        || (parseInt(tempStartDate[2]) === yyyy && parseInt(tempStartDate[0]) === parseInt(mm) && parseInt(tempStartDate[1]) < parseInt(dd))
+        || (parseInt(tempStartDate[2]) === yyyy && parseInt(tempStartDate[0]) < parseInt(mm))) {
         alert("enter correct date");
         return;
     }
@@ -95,22 +149,24 @@ submitButton.onclick = function () {
             'Content-type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify({ email1: email1,
-                               email2 : email2,
-                               startTime : startTime,
-                               endTime : endTime})
+        body: JSON.stringify({
+            email1: email1,
+            email2: email2,
+            startTime: startTime,
+            endTime: endTime
+        })
     })
-    .then(response => response.json())
-    .then(data => insertRowIntoInterviewTable(data['data']));
+        .then(response => response.json())
+        .then(data => insertRowIntoInterviewTable(data['data']));
 }
 
 function insertRowIntoInterviewTable(data) {
 
-    if(data.id === -1) {
+    if (data.id === -1) {
         alert("Interviewer Not available at that time");
         return;
     }
-    if(data.id === -2) {
+    if (data.id === -2) {
         alert("Student(Interviewee) Not available at that time");
         return;
     }
@@ -118,11 +174,11 @@ function insertRowIntoInterviewTable(data) {
     const isTableData = table.querySelector('.no-data');
 
     let tableHtml = "<tr>";
-    
+
     //console.log("DATA",data);
-    for (var key in data) {   
+    for (var key in data) {
         //console.log("KEY",key);
-        if (key === 'startTime' || key==='endTime') {
+        if (key === 'startTime' || key === 'endTime') {
             data[key] = new Date(data[key]).toLocaleString();
         }
         tableHtml += `<td>${data[key]}</td>`;
@@ -152,8 +208,8 @@ function loadInterviewTable(data) {
 
     let tableHtml = "";
 
-    data.forEach(function ({id, email1, email2, startTime, endTime}) {
-        
+    data.forEach(function ({ id, email1, email2, startTime, endTime }) {
+
         tableHtml += "<tr>";
         tableHtml += `<td>${id}</td>`;
         tableHtml += `<td>${email1}</td>`;
@@ -171,13 +227,13 @@ function loadInterviewTable(data) {
 
 const updateBtn = document.querySelector('#update-row-btn');
 
-updateBtn.onclick = function() {
+updateBtn.onclick = function () {
     const updateDate1 = document.querySelector('#start-time-updated');
     const updateDate2 = document.querySelector('#end-time-updated');
     const data = updateDate1.dataset.id.split(',');
 
     //console.log("Updated", data);
-    if(updateDate1.value === "" || updateDate2.value === "") {
+    if (updateDate1.value === "" || updateDate2.value === "") {
         alert("Select Date and Time");
         return;
     }
@@ -185,7 +241,7 @@ updateBtn.onclick = function() {
     fetch('http://localhost:5000/updateInterview', {
         method: 'PATCH',
         headers: {
-            'Content-type' : 'application/json'
+            'Content-type': 'application/json'
         },
         body: JSON.stringify({
             id: data[0],
@@ -195,15 +251,15 @@ updateBtn.onclick = function() {
             endTime: updateDate2.value
         })
     })
-    .then(response => response.json())
-    .then(data => updateVerdict(data['data']));
+        .then(response => response.json())
+        .then(data => updateVerdict(data['data']));
 }
 
 function updateVerdict(data) {
-    if (data.id===-1) {
+    if (data.id === -1) {
         alert("Interviewer Not available at that time");
-    } 
-    else if (data.id===-2) {
+    }
+    else if (data.id === -2) {
         alert("Student(Interviewee) Not available at that time");
     }
     else {
